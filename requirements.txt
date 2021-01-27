@@ -8,6 +8,7 @@ click=7.1.2=pyhd3eb1b0_0
 flask=1.1.2=py_0
 flask-marshmallow=0.14.0=pyh9f0ad1d_0
 flask-sqlalchemy=2.4.4=pyh9f0ad1d_0
+gunicorn=20.0.4=pypi_0
 intel-openmp=2020.2=254
 itsdangerous=1.1.0=py_0
 jinja2=2.11.2=pyhd3eb1b0_0
