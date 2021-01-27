@@ -21,14 +21,14 @@ else:
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
-
+ 
 class Pgcb_Db(db.Model):
     __tablename__ = "feedback"
-    uid = db.column(db.Integer, primary_key = True)
+    uid = db.Column(db.Integer, primary_key = True)
     # id = db.column(db.Integer)
-    customer = db.column(db.String(200))
-    dealer = db.column(db.String(200))
-    rating = db.column(db.Integer)
+    customer = db.Column(db.String(200))
+    dealer = db.Column(db.String(200))
+    rating = db.Column(db.Integer)
     comments = db.Column(db.Text())
 
     def __init__(self, customer, dealer, rating, comments):
@@ -52,7 +52,12 @@ def submit():
         # print(customer, dealer, rating, comments)
         if customer == "" or dealer == "":
             return render_template("index.html", message = "Please enter required fields.")
-        return render_template("success.html")
+        if db.session.query(Pgcb_Db).filter(Pgcb_Db.customer == customer).count() == 0:
+            data = Pgcb_Db(customer, dealer, rating, comments)
+            db.session.add(data)
+            db.session.commit()
+            return render_template("success.html")
+        return render_template("index.html", message = "You have already submitted feedback")
 
 # Run server
 if __name__ == "__main__":
