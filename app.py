@@ -16,7 +16,7 @@ if ENV == "dev":
 else:
     # Production Mode
     app.debug = False
-    app.config["SQLALCHEMY_DATABASE_URI"] = "enter_your_heroku_db_url"
+    app.config["SQLALCHEMY_DATABASE_URI"] = "postgres://gxkwwilnlxmwbu:03ba9e00d3cb8a8d8833cb54f46f7e0603c2e911b1a21c9f7fe5318e1d255a62@ec2-75-101-232-85.compute-1.amazonaws.com:5432/d6cp3ita92srga"
 
 # TO DO Comment
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
