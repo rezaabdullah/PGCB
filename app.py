@@ -1,7 +1,43 @@
 from flask import Flask, render_template, request
+from flask_sqlalchemy import SQLAlchemy
+# from flask_marshmallow import Marshmallow
+# from pathlib import Path
 
+# Init app
 app = Flask(__name__)
 
+ENV = "dev"
+
+if ENV == "dev":
+    # Development Mode
+    app.debug = True
+    app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:1234@localhost/pgcb"
+else:
+    # Production Mode
+    app.debug = False
+    # app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:1234@localhost/pgcb"
+
+# TO DO Comment
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+db = SQLAlchemy(app)
+
+class Pgcb_Db(db.Model):
+    __tablename__ = "feedback"
+    uid = db.column(db.Integer, primary_key = True)
+    # id = db.column(db.Integer)
+    customer = db.column(db.String(200))
+    dealer = db.column(db.String(200))
+    rating = db.column(db.Integer)
+    comments = db.Column(db.Text())
+
+    def __init__(self, customer, dealer, rating, comments):
+        self.customer = customer
+        self.dealer = dealer
+        self.rating = rating
+        self.comments = comments
+
+# Run server
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -18,6 +54,7 @@ def submit():
             return render_template("index.html", message = "Please enter required fields.")
         return render_template("success.html")
 
+# Run server
 if __name__ == "__main__":
     app.debug = True
     app.run()
